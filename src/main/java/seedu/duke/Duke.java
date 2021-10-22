@@ -63,8 +63,6 @@ public class Duke {
 
             ui.printMessage(commandResult.getMessage());
 
-            ui.printMessage(checkReminder());
-
         } while (commandResult.getIsExited() != true);
 
     }
