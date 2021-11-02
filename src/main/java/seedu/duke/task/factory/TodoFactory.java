@@ -6,7 +6,6 @@ import java.util.Map;
 import seedu.duke.exception.GetTaskFailedException;
 import seedu.duke.exception.ParseDateFailedException;
 import seedu.duke.command.flags.TodoFlag;
-import seedu.duke.exception.RecurrenceWithoutDateException;
 import seedu.duke.parser.TaskParser;
 import seedu.duke.task.PriorityEnum;
 import seedu.duke.task.RecurrenceEnum;
@@ -31,15 +30,8 @@ public class TodoFactory extends TaskFactory {
             String doOn = flags.get(TodoFlag.DO_ON_DATE);
             doOnDate = TaskParser.getDate(doOn);
 
-            boolean hasRecurrence = recurrenceEnum != null && recurrenceEnum != RecurrenceEnum.NONE;
-
-            if (doOnDate == null && hasRecurrence) {
-                throw new RecurrenceWithoutDateException();
-            }
         } catch (ParseDateFailedException pdfe) {
             throw new GetTaskFailedException(pdfe.getMessage());
-        } catch (RecurrenceWithoutDateException rwde) {
-            throw new GetTaskFailedException(rwde.getMessage());
         }
     }
 

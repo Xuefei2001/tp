@@ -5,16 +5,15 @@ import java.util.TreeSet;
 import seedu.duke.exception.EmptyTasklistException;
 import seedu.duke.exception.InvalidTaskIndexException;
 import seedu.duke.local.DataManager;
+import seedu.duke.parser.CommandParser;
 import seedu.duke.task.Task;
 import seedu.duke.task.taskmanager.TaskManager;
-import seedu.duke.utility.Utility;
 
 //@@author SeanRobertDH
 public class DeleteCommand extends Command {
 
     private static final String TASK_DELETED = "Tasks deleted:\n";
     private static final String USAGE = "delete <index>";
-    private static final String INVALID_TASK_INDEX = "%s is not an integer!";
 
     private static final String SPACE_REGEX = "[\\s|_]+";
     private static final String SEPARATOR = ",";
@@ -66,13 +65,13 @@ public class DeleteCommand extends Command {
         for (String indexString : indexStrings) {
             if (indexString.contains(LIST_NUMBERS)) {
                 String[] listIndexes = indexString.split(LIST_NUMBERS, 2);
-                Integer startIndex = parseIndex(listIndexes[0]);
-                Integer endIndex = parseIndex(listIndexes[1]);
+                Integer startIndex = CommandParser.parseTaskIndex(listIndexes[0]);
+                Integer endIndex = CommandParser.parseTaskIndex(listIndexes[1]);
                 for (Integer index = startIndex; index <= endIndex; index++) {
                     indexes.add(index);
                 }
             } else {
-                indexes.add(parseIndex(indexString));
+                indexes.add(CommandParser.parseTaskIndex(indexString));
             }
         }
         return indexes;
@@ -81,20 +80,13 @@ public class DeleteCommand extends Command {
     private String deleteTasks(TreeSet<Integer> indexes) throws InvalidTaskIndexException {
         String message = "";
         int offset = 0;
-        taskManager.checkIndexValid(indexes.first() - 1);
-        taskManager.checkIndexValid(indexes.last() - 1);
+        taskManager.checkFilteredListIndexValid(indexes.first() - 1);
+        taskManager.checkFilteredListIndexValid(indexes.last() - 1);
         for (Integer index : indexes) {
-            Task deletedTask = taskManager.deleteTask(index - 1 - offset++);
+            Task deletedTask = taskManager.deleteFilteredTask(index - 1 - offset++);
             DataManager.deleteTask(index - 1 - offset);
             message += deletedTask.getTaskEntryDescription() + '\n';
         }
         return message;
-    }
-
-    private Integer parseIndex(String index) throws NumberFormatException {
-        if (!Utility.isInteger(index)) {
-            throw new NumberFormatException(String.format(INVALID_TASK_INDEX, index));
-        }
-        return Integer.parseInt(index);
     }
 }

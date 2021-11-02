@@ -7,6 +7,7 @@ import seedu.duke.exception.ParseDateFailedException;
 import seedu.duke.parser.DateParser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 //@@author SeanRobertDH
 class RecurrenceEnumTest {
@@ -50,5 +51,13 @@ class RecurrenceEnumTest {
         assertEquals(DateParser.stringToDate("29-02-2020 03:29"), recurred.get(0));
         assertEquals(DateParser.stringToDate("31-03-2020 03:29"), recurred.get(1));
         assertEquals(DateParser.stringToDate("30-04-2020 03:29"), recurred.get(2));
+    }
+
+    @Test
+    void getNextRecurredDate_monthlyRecurred_expectRecurredDates() throws ParseDateFailedException {
+        LocalDateTime dateTime = DateParser.stringToDate("15-01-2020 03:29");
+        LocalDateTime nextDateTime = RecurrenceEnum.MONTHLY.getNextRecurredDate(dateTime);
+        assertEquals(15, nextDateTime.getDayOfMonth());
+        assertFalse(nextDateTime.isBefore(LocalDateTime.now()));
     }
 }

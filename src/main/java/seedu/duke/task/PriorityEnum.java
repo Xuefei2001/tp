@@ -28,17 +28,17 @@ public enum PriorityEnum {
         return super.toString().toLowerCase();
     }
 
-    ////@@author APZH
+    //@@author APZH
     public boolean isLowerPriorityThan(PriorityEnum comparison) {
         return this.getValue() < comparison.getValue();
     }
 
-    ////@@author APZH
+    //@@author APZH
     public boolean isEqualPriorityTo(PriorityEnum comparison) {
         return this == comparison;
     }
 
-    ////@@author APZH
+    //@@author APZH
     public boolean isHigherPriorityThan(PriorityEnum comparison) {
         return this.getValue() > comparison.getValue();
     }

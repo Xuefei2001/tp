@@ -11,9 +11,8 @@ import seedu.duke.task.taskmanager.TaskManager;
 import seedu.duke.ui.Ui;
 
 import java.util.Scanner;
-import seedu.duke.task.taskmanager.TaskManagerObserver;
 
-public class Duke implements TaskManagerObserver {
+public class Duke {
 
     private final Scanner in;
     private final Ui ui;
@@ -24,7 +23,7 @@ public class Duke implements TaskManagerObserver {
         in = new Scanner(System.in);
         ui = new Ui();
         reminderManager = new ReminderManager();
-        taskManager = new TaskManager(this);
+        taskManager = new TaskManager();
     }
 
     public String readInput() {
@@ -76,10 +75,5 @@ public class Duke implements TaskManagerObserver {
     public static void main(String[] args) {
         Duke duke = new Duke();
         duke.startProgram();
-    }
-
-
-    public void update(TaskManager taskManager) {
-        this.taskManager = taskManager;
     }
 }

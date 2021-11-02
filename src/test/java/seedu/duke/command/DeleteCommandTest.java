@@ -3,14 +3,15 @@ package seedu.duke.command;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.command.flags.DeadlineFlag;
 import seedu.duke.command.flags.EventFlag;
+import seedu.duke.command.flags.ListFlag;
 import seedu.duke.exception.EmptyTasklistException;
 import seedu.duke.exception.InvalidTaskIndexException;
 import seedu.duke.local.DataManager;
+import seedu.duke.task.PriorityEnum;
 import seedu.duke.task.taskmanager.TaskManager;
 import seedu.duke.task.factory.DeadlineFactory;
 import seedu.duke.task.factory.EventFactory;
@@ -58,7 +59,7 @@ class DeleteCommandTest {
         DataManager.setUpDataManager(taskManager);
         new DeleteCommand(taskManager, arguments).executeCommand();
 
-        assertFalse(taskManager.listTasklist(new HashMap<>()).contains(TO_DELETE));
+        assertFalse(taskManager.listTasklistWithFilter(new HashMap<>()).contains(TO_DELETE));
     }
 
     @Test
@@ -85,7 +86,7 @@ class DeleteCommandTest {
         DataManager.setUpDataManager(taskManager);
         new DeleteCommand(taskManager, arguments).executeCommand();
 
-        assertFalse(taskManager.listTasklist(new HashMap<>()).contains(TO_DELETE));
+        assertFalse(taskManager.listTasklistWithFilter(new HashMap<>()).contains(TO_DELETE));
     }
 
     @Test
@@ -112,7 +113,7 @@ class DeleteCommandTest {
         DataManager.setUpDataManager(taskManager);
         new DeleteCommand(taskManager, arguments).executeCommand();
 
-        assertFalse(taskManager.listTasklist(new HashMap<>()).contains(TO_DELETE));
+        assertFalse(taskManager.listTasklistWithFilter(new HashMap<>()).contains(TO_DELETE));
     }
 
     @Test
@@ -139,7 +140,7 @@ class DeleteCommandTest {
         DataManager.setUpDataManager(taskManager);
         new DeleteCommand(taskManager, arguments).executeCommand();
 
-        assertFalse(taskManager.listTasklist(new HashMap<>()).contains(TO_DELETE));
+        assertFalse(taskManager.listTasklistWithFilter(new HashMap<>()).contains(TO_DELETE));
     }
 
     @Test
@@ -166,7 +167,7 @@ class DeleteCommandTest {
         DataManager.setUpDataManager(taskManager);
         new DeleteCommand(taskManager, arguments).executeCommand();
 
-        assertFalse(taskManager.listTasklist(new HashMap<>()).contains(TO_DELETE));
+        assertFalse(taskManager.listTasklistWithFilter(new HashMap<>()).contains(TO_DELETE));
     }
 
     @Test
@@ -224,4 +225,70 @@ class DeleteCommandTest {
 
         assertEquals(new InvalidTaskIndexException(4).getMessage(), result);
     }
+
+    @Test
+    void executeCommand_validSingleInputAfterListing_expectTaskDeleted() throws Exception {
+        Map<String, String> arguments = new HashMap<>();
+
+        arguments.put(EventFlag.DESCRIPTION, "1");
+        arguments.put(EventFlag.START_DATE, VALID_DATE1);
+        arguments.put(EventFlag.END_DATE, VALID_DATE2);
+        taskManager.addTask(new EventFactory(arguments).getTask());
+
+        arguments.put(EventFlag.DESCRIPTION, "2");
+        arguments.put(DeadlineFlag.DUE_DATE, VALID_DATE1);
+        taskManager.addTask(new DeadlineFactory(arguments).getTask());
+
+        arguments.put(EventFlag.DESCRIPTION, "3");
+        taskManager.addTask(new TodoFactory(arguments).getTask());
+        arguments.put(EventFlag.DESCRIPTION, "4");
+        taskManager.addTask(new TodoFactory(arguments).getTask());
+        arguments.put(EventFlag.DESCRIPTION, TO_DELETE);
+        arguments.put(EventFlag.PRIORITY, PriorityEnum.LOW.toString());
+        taskManager.addTask(new TodoFactory(arguments).getTask());
+
+        Map<String, String> listArguments = new HashMap<>();
+        listArguments.put(ListFlag.PRIORITY, PriorityEnum.LOW.toString());
+
+        arguments.put(Command.MAIN_ARGUMENT, "   1");
+        new ListCommand(taskManager, listArguments).executeCommand();
+        new DeleteCommand(taskManager, arguments).executeCommand();
+
+        assertFalse(taskManager.listTasklistWithFilter(new HashMap<>()).contains(TO_DELETE));
+    }
+
+    @Test
+    void executeCommand_validMultiInputAfterListing_expectTaskDeleted() throws Exception {
+        Map<String, String> arguments = new HashMap<>();
+
+        arguments.put(EventFlag.PRIORITY, PriorityEnum.LOW.toString());
+        arguments.put(EventFlag.DESCRIPTION, "1");
+        arguments.put(EventFlag.START_DATE, VALID_DATE1);
+        arguments.put(EventFlag.END_DATE, VALID_DATE2);
+        taskManager.addTask(new EventFactory(arguments).getTask());
+
+        arguments.remove(EventFlag.PRIORITY);
+        arguments.put(EventFlag.DESCRIPTION, "2");
+        arguments.put(DeadlineFlag.DUE_DATE, VALID_DATE1);
+        taskManager.addTask(new DeadlineFactory(arguments).getTask());
+
+        arguments.put(EventFlag.DESCRIPTION, "3");
+        taskManager.addTask(new TodoFactory(arguments).getTask());
+        arguments.put(EventFlag.DESCRIPTION, "4");
+        taskManager.addTask(new TodoFactory(arguments).getTask());
+
+        arguments.put(EventFlag.DESCRIPTION, TO_DELETE);
+        arguments.put(EventFlag.PRIORITY, PriorityEnum.LOW.toString());
+        taskManager.addTask(new TodoFactory(arguments).getTask());
+
+        Map<String, String> listArguments = new HashMap<>();
+        listArguments.put(ListFlag.PRIORITY, PriorityEnum.LOW.toString());
+
+        arguments.put(Command.MAIN_ARGUMENT, "   1 -  2");
+        new ListCommand(taskManager, listArguments).executeCommand();
+        new DeleteCommand(taskManager, arguments).executeCommand();
+
+        assertFalse(taskManager.listTasklistWithFilter(new HashMap<>()).contains(TO_DELETE));
+    }
+
 }

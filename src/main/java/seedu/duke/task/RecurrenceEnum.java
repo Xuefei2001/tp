@@ -31,7 +31,7 @@ public enum RecurrenceEnum {
     }
 
     public List<LocalDateTime> getNextNRecurredDates(LocalDateTime date, int n) {
-        ArrayList<LocalDateTime>  recurredDates = new ArrayList<>(n);
+        ArrayList<LocalDateTime> recurredDates = new ArrayList<>(n);
         if (this == NONE) {
             return recurredDates;
         }
@@ -39,6 +39,19 @@ public enum RecurrenceEnum {
             recurredDates.add(date.plus(i, chronoUnit));
         }
         return recurredDates;
+    }
+
+    public LocalDateTime getNextRecurredDate(LocalDateTime date) {
+        if (this == NONE) {
+            return date;
+        }
+        long i = 0;
+        LocalDateTime recurredDate;
+        do {
+            recurredDate = date.plus(i++, chronoUnit);
+        } while (recurredDate.isBefore(LocalDateTime.now()));
+
+        return recurredDate;
     }
 
     public static RecurrenceEnum getRecurrence(String recurrence) throws InvalidRecurrenceException {
@@ -49,4 +62,6 @@ public enum RecurrenceEnum {
         }
         throw new InvalidRecurrenceException(recurrence);
     }
+
+
 }

@@ -1,16 +1,23 @@
 package seedu.duke.task;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+import seedu.duke.command.flags.EditFlag;
 import seedu.duke.command.flags.TaskFlag;
 import seedu.duke.task.reminder.Reminder;
 import seedu.duke.task.reminder.ReminderInformation;
+import seedu.duke.exception.InvalidPriorityException;
+import seedu.duke.exception.InvalidRecurrenceException;
+import seedu.duke.exception.ParseDateFailedException;
+import seedu.duke.exception.StartDateAfterEndDateException;
+import seedu.duke.parser.TaskParser;
 
 public abstract class Task {
 
     private static final PriorityEnum DEFAULT_PRIORITY = PriorityEnum.MEDIUM;
     protected static final RecurrenceEnum DEFAULT_RECURRENCE = RecurrenceEnum.NONE;
 
-    private static final String TASK_ENTRY_DESCRIPTION_REGEX = "%s [%s]";
+    private static final String TASK_ENTRY_DESCRIPTION_REGEX = "%s <%s> {%s}";
 
     private static final String DESCRIPTION_NOT_EMPTY_ASSERTION = "description should not be empty.";
     private static final String DESCRIPTION_NOT_NULL_ASSERTION = "description should not be null.";
@@ -46,7 +53,7 @@ public abstract class Task {
     }
 
     public String getTaskEntryDescription() {
-        return String.format(TASK_ENTRY_DESCRIPTION_REGEX, getDescription(), getPriority());
+        return String.format(TASK_ENTRY_DESCRIPTION_REGEX, getDescription(), getPriority(), getRecurrence());
     }
 
     public String getDescription() {
@@ -88,4 +95,23 @@ public abstract class Task {
     }
 
     public abstract TypeEnum getTaskType();
+
+    public void edit(Map<String, String> arguments) throws InvalidPriorityException,
+            InvalidRecurrenceException, ParseDateFailedException, StartDateAfterEndDateException {
+        if (arguments.containsKey(EditFlag.DESCRIPTION)) {
+            setDescription(arguments.get(EditFlag.DESCRIPTION));
+        }
+        if (arguments.containsKey(TaskFlag.PRIORITY)) {
+            String priority = arguments.get(TaskFlag.PRIORITY);
+            setPriority(TaskParser.getPriorityEnum(priority));
+        }
+        if (arguments.containsKey(TaskFlag.RECURRENCE)) {
+            String recurrence = arguments.get(TaskFlag.RECURRENCE);
+            setRecurrence(TaskParser.getRecurrenceEnum(recurrence));
+        }
+        taskEdit(arguments);
+    }
+
+    protected abstract void taskEdit(Map<String, String> arguments)
+        throws ParseDateFailedException, StartDateAfterEndDateException;
 }

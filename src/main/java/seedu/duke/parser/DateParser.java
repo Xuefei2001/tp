@@ -79,6 +79,12 @@ public class DateParser {
         return dateTime.minusMinutes(minutes);
     }
 
+    public static LocalDateTime roundUpHour(LocalDateTime dateTime) {
+        int minutes = dateTime.getMinute();
+        dateTime = dateTime.minusMinutes(minutes);
+        return dateTime.plusHours(1);
+    }
+
     public static String dateToString(LocalDateTime dateTime) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
         return dateFormat.format(dateTime);

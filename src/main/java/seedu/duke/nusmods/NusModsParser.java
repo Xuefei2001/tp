@@ -1,11 +1,11 @@
 package seedu.duke.nusmods;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.time.ZoneId;
-import seedu.duke.task.type.Event;
+import seedu.duke.exception.GetTaskFailedException;
 import seedu.duke.task.type.Lesson;
 
 import java.io.File;
@@ -13,14 +13,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.stream.StreamSupport;
-import seedu.duke.task.type.Todo;
 
 import static org.apache.commons.io.FileUtils.copyURLToFile;
 
@@ -29,53 +29,44 @@ public class NusModsParser {
     private static final String ENDPOINT = "https://api.nusmods.com/v2/";
     private static final int TIMEOUT = 5000;
 
-    private enum Semester {
-        S1, S2, ST1, ST2;
-
-        public static Semester fromInt(int n) {
-            // n is 1-based, as in NUSMods data
-            return Semester.values()[n - 1];
-        }
-    }
-
-    private static Semester getSemester() {
-        // FIXME
-        return Semester.S1;
-    }
-
     /**
-     * Get calendar events of the given lesson in the current semester.
-     * @param lesson The lesson to be queried
-     * @return An array of Events denoting all class occurrences
-     * @throws IOException If there is neither network connection nor local cache
+     * Get Lesson objects of a particular class.
+     * @param moduleCode The module code to be queried
+     * @param classNo The class number to be queried
+     * @return An array of Lessons denoting all class occurrences
+     * @throws GetTaskFailedException If there is neither network connection nor local cache
      */
-    public Event[] getLessonEvents(Lesson lesson) throws IOException {
-        DateFormat formatter = new SimpleDateFormat("HHmm");
-        JsonObject obj = JsonParser.parseReader(getModuleReader(lesson.getModuleCode())).getAsJsonObject();
+    public Lesson[] getLessons(String moduleCode, String classNo) throws GetTaskFailedException {
+        Reader moduleReader;
+        try {
+            moduleReader = getModuleReader(moduleCode);
+        } catch (IOException ioe) {
+            throw new GetTaskFailedException(ioe.getMessage());
+        }
+        JsonObject obj = JsonParser.parseReader(moduleReader).getAsJsonObject();
         JsonArray semesterData = obj.getAsJsonArray("semesterData");
-        Event[] lessonEvents = null;
+        Lesson[] lessons = null;
         for (JsonElement element : semesterData) {
             JsonObject semesterObject = element.getAsJsonObject();
-            if (Semester.fromInt(semesterObject.get("semester").getAsInt()) == getSemester()) {
-                JsonArray timetable = semesterObject.get("timetable").getAsJsonArray();
-                lessonEvents = StreamSupport.stream(timetable.spliterator(), true)
-                        .map(JsonElement::getAsJsonObject)
-                        .filter(l -> lesson.getClassNo().equals(l.get("classNo").getAsString()))
-                        .map(l -> {
-                            try {
-                                return new Event(lesson.getTaskEntryDescription(),
-                                        formatter.parse(l.get("startTime").getAsString())
-                                            .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                                        formatter.parse(l.get("endTime").getAsString())
-                                            .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-                            } catch (ParseException ex) {
-                                return new Todo(lesson.getTaskEntryDescription());
-                            }
-                        })
-                        .toArray(Event[]::new);
+            if (Semester.fromInt(semesterObject.get("semester").getAsInt()) != Semester.getSemester()) {
+                continue;
             }
+            JsonArray timetable = semesterObject.get("timetable").getAsJsonArray();
+            lessons = StreamSupport.stream(timetable.spliterator(), true)
+                .map(JsonElement::getAsJsonObject)
+                .filter(l -> classNo.equals(l.get("classNo").getAsString()))
+                .map(l -> {
+                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+                    return new Lesson(moduleCode, classNo,
+                        DayOfWeek.from(DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH)
+                                .parse(l.get("day").getAsString())),
+                        LocalTime.parse(l.get("startTime").getAsString(), timeFormatter),
+                        LocalTime.parse(l.get("endTime").getAsString(), timeFormatter),
+                        Semester.acadWeeksToRealWeeks((new Gson()).fromJson(l.get("weeks"), int[].class)));
+                })
+                .toArray(Lesson[]::new);
         }
-        return lessonEvents;
+        return lessons;
     }
 
     private Reader getModuleReader(String moduleCode) throws IOException {

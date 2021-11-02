@@ -1,5 +1,6 @@
 package seedu.duke.task.factory;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import seedu.duke.command.flags.TodoFlag;
 import seedu.duke.exception.GetTaskFailedException;
 import seedu.duke.exception.InvalidPriorityException;
-import seedu.duke.exception.RecurrenceWithoutDateException;
 import seedu.duke.exception.RequiredArgmentNotProvidedException;
 import seedu.duke.parser.DateParser;
 import seedu.duke.task.PriorityEnum;
@@ -50,25 +50,23 @@ class TodoFactoryTest {
         Todo todo = (Todo) new TodoFactory(arguments).getTask();
 
         assertEquals(todo.getDescription(), DESCRIPTION);
-        assertNull(todo.getDoOnDate());
+        assertEquals(0, todo.getDoOnDate().getMinute());
+        assertEquals(LocalDateTime.now().getHour() + 1, todo.getDoOnDate().getHour());
         assertEquals(todo.getPriority(), PriorityEnum.MEDIUM);
         assertEquals(todo.getRecurrence(), RecurrenceEnum.NONE);
     }
 
     @Test
-    void getTask_todoNoDateWithRecurrence_expectGetTaskFailedException() {
+    void getTask_todoNoDate_expectTaskWithRoundedUpDateTime() throws GetTaskFailedException {
         Map<String, String> arguments = new HashMap<>();
 
         arguments.put(TodoFlag.DESCRIPTION, DESCRIPTION);
         arguments.put(TodoFlag.RECURRENCE, RecurrenceEnum.DAILY.toString());
 
-        GetTaskFailedException thrown = assertThrows(
-            GetTaskFailedException.class,
-            () -> new TodoFactory(arguments).getTask());
+        Todo todo = (Todo) new TodoFactory(arguments).getTask();
 
-        RecurrenceWithoutDateException rwde = new RecurrenceWithoutDateException();
-
-        assertEquals(thrown.getMessage(), rwde.getMessage());
+        assertEquals(0, todo.getDoOnDate().getMinute());
+        assertEquals(LocalDateTime.now().getHour() + 1, todo.getDoOnDate().getHour());
     }
 
     @Test
