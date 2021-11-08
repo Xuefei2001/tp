@@ -8,9 +8,13 @@ import seedu.tp.task.reminder.ReminderManager;
 
 import java.util.Map;
 
+//@@author Xuefei2001
+/**
+ * To be used for reminder command, to customize reminder time and message.
+ */
 public class ReminderCommand extends Command {
     private static final String USAGE = "-> Setting a reminder for a task: reminder <index> "
-            + "[--time <minute>] [--message <your reminder message>]";
+            + "[--minute <minute>]  [--day <day>] [--message <your reminder message>]";
 
     public ReminderCommand(TaskManager taskManager, Map<String, String> commandArguments) {
         super(taskManager, commandArguments);
@@ -22,6 +26,13 @@ public class ReminderCommand extends Command {
     }
 
     @Override
+    //@@author Xuefei2001
+    /**
+     * Execute reminder command to change reminder time and message,
+     * according to the values from {@code commandArguments}
+     *{@code message} is used to record the message after executing the command,
+     * either tells reminder updated or tells the issue come across.
+     */
     public CommandResult executeCommand() throws Exception {
         String message = "";
         try {

@@ -50,11 +50,6 @@ public class Deadline extends Task {
         return this.TASK_TYPE;
     }
 
-    @Override
-    public LocalDateTime getHappenTime() {
-        return getDueDate();
-    }
-
     public LocalDateTime getDueDate() {
         return dueDate;
     }

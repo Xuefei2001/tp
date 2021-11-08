@@ -12,6 +12,10 @@ import seedu.tp.task.taskmanager.TaskManager;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+//@@author Xuefei2001
+/**
+ * Handle checking the task list for reminder and cutomization of reminder.
+ */
 public class ReminderManager {
 
     private static final String LINE_SEPARATOR = "---------------------------------------"
@@ -21,13 +25,17 @@ public class ReminderManager {
 
     }
 
+    //@@author Xuefei2001
+    /**
+     * Check through the current task list and give the reminder message need to be sent if any.
+     */
     public static String sendReminder(TaskManager taskManager) {
         LocalDateTime now = LocalDateTime.now();
         String message = "";
         if (taskManager != null) {
             for (int i = 0; i < taskManager.getTaskListSize(); i++) {
                 if (taskManager.getTask(i).needReminder()) {
-                    message += (taskManager.getTask(i).getReminder(now));
+                    message += (taskManager.getTask(i).getReminderMessage(now));
                 }
             }
         }
@@ -80,6 +88,16 @@ public class ReminderManager {
         }
     }
 
+    //@@author Xuefei2001
+    /**
+     * Change the minute,day and message according to user input.
+     *
+     * @return outMessage the message showing what has been updated.
+     * @throws NumberFormatException if the field needs to be integer but put in something else by user
+     * @throws MissingReminderFieldException if no fields are used, nothing need to be changed
+     * @throws MissingUserTimeException if the place that need a time input is empty
+     * @throws MissingUserMessageException if the place that need a message input is empty
+     */
     public static String customizeReminder(TaskManager taskManager, Map<String, String> commandArguments)
             throws NumberFormatException, MissingUserTimeException,
             MissingUserMessageException, MissingReminderFieldException {

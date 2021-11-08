@@ -1,6 +1,19 @@
 package seedu.tp.parser;
 
-import seedu.tp.command.*;
+import seedu.tp.command.BrowseCommand;
+import seedu.tp.command.ByeCommand;
+import seedu.tp.command.Command;
+import seedu.tp.command.CommandEnum;
+import seedu.tp.command.CommandResult;
+import seedu.tp.command.DeleteCommand;
+import seedu.tp.command.EditCommand;
+import seedu.tp.command.HelpCommand;
+import seedu.tp.command.InvalidCommand;
+import seedu.tp.command.ListCommand;
+import seedu.tp.command.ReminderCommand;
+import seedu.tp.command.SortCommand;
+import seedu.tp.command.UpcomingCommand;
+
 import seedu.tp.command.addtask.DeadlineCommand;
 import seedu.tp.command.addtask.EventCommand;
 import seedu.tp.command.addtask.ModuleCommand;

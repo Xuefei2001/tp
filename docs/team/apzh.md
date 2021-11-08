@@ -1,6 +1,6 @@
 # Peh Zhenhao, Amos - Project Portfolio Page
 
-## Overview
+## Overview <a id="scrollToHere"></a>
 **SchedUrMods** is a desktop application for NUS students who wish to manage their assignments 
 and semester-related information via CLI (command-line interface). If you can type fast, SchedUrMods 
 can help you manage your daily tasks faster than traditional GUI application.
@@ -52,8 +52,8 @@ Given below are the contributions I have made to this project.
 [#159](https://github.com/AY2122S1-CS2113T-W13-3/tp/pull/159) (C1-C5)
   - **Contribution 1:** Created and maintained the skeleton/overview for the User Guide to help the team be consistent when adding information.
   - **Contribution 2:** Added the documentation in "1. Quick Start".
-  - **Contribution 3:** Added the documentation in "2.4 Listing your tasks: `list`" + all it's sub-sections.
-  - **Contribution 4:** Added the documentation in "2.5 Sorting your tasklist: `sort`".
+  - **Contribution 3:** Added the documentation in "2.3 Listing your tasks: `list`" + all it's sub-sections.
+  - **Contribution 4:** Added the documentation in "2.4 Sorting your tasklist: `sort`".
   - **Contribution 5:** Updated "4. Command Summary" table with changes made to the `list` and `sort` command.
 
 ---

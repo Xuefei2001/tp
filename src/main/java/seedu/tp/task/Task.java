@@ -80,11 +80,12 @@ public abstract class Task {
         this.priority = priority;
     }
 
+    //@@author Xuefei2001
     public Reminder getReminder() {
         return reminder;
     }
 
-    public String getReminder(LocalDateTime now) {
+    public String getReminderMessage(LocalDateTime now) {
         return reminder.getRecurrenceMessage(now, getTaskEntryDescription(), getRecurrence());
     }
 
@@ -95,6 +96,7 @@ public abstract class Task {
     public boolean needReminder() {
         return (reminder != null);
     }
+    //@@author
 
     public RecurrenceEnum getRecurrence() {
         return this.recurrence;
@@ -143,13 +145,6 @@ public abstract class Task {
         taskEdit(arguments);
     }
 
-    /*
-     * Get the time of the happening, or null if the task does not have the sense of time
-     * @return The start time, of the first occurrence if multiple
-     */
-    @Nullable
-    public abstract LocalDateTime getHappenTime();
-
     //@@author SeanRobertDH
     /**
      * Edits the variables of subclass of {@link seedu.tp.task.Task} based off the flags in <code>arguments</code>.
@@ -196,7 +191,6 @@ public abstract class Task {
     public abstract LocalDateTime getListDate();
 
     //@@author SeanRobertDH
-
     /**
      * Updates the {@link java.time.LocalDateTime} in subclasses if they have a recurrence
      * to the latest date.

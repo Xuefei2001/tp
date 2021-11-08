@@ -56,11 +56,6 @@ public class Event extends Task {
         return this.TASK_TYPE;
     }
 
-    @Override
-    public LocalDateTime getHappenTime() {
-        return getStartDate();
-    }
-
     public LocalDateTime getStartDate() {
         return startDate;
     }

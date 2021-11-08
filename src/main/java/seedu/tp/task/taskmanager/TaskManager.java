@@ -55,14 +55,14 @@ public class TaskManager implements Subject {
     static final int STARTING_SIZE = 128;
 
     private static final String LIST_HEADER = "-------------\n"
-            + " MY TASKLIST\n"
+            + " MY TASK LIST\n"
             + "-------------\n";
 
     private static final int numOfRecurredDates = 4;
     private static final String DIGIT_REGEX = "^[+-]?[0-9]*$";
 
     private static final String INVALID_SORT_ARGUMENT_MSG = "[!] The sort criteria entered is not valid";
-    private static final String SORT_TASKLIST_COMPLETE_MSG = "[!] Tasklist has been sorted by: ";
+    private static final String SORT_TASKLIST_COMPLETE_MSG = "[!] Task list has been sorted by: ";
 
     public TaskManager(DataManager dataManager) {
         taskList = dataManager.loadTaskList(STARTING_SIZE);

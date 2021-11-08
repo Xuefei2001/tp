@@ -29,9 +29,6 @@ public class TaskUsageParser {
     public static String getRecurrencesListString() {
         String listString = STRING_REGEX;
         for (RecurrenceEnum recurrence : RecurrenceEnum.values()) {
-            if (recurrence == RecurrenceEnum.NONE) {
-                continue;
-            }
             listString = String.format(listString, recurrence.toString() + ARGUMENT_SPLIT + STRING_REGEX);
         }
         listString = listString.replaceAll(STRING_REGEX, "");

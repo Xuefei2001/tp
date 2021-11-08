@@ -71,11 +71,6 @@ public class Todo extends Task {
         return this.TASK_TYPE;
     }
 
-    @Override
-    public LocalDateTime getHappenTime() {
-        return getDoOnDate();
-    }
-
     public LocalDateTime getDoOnDate() {
         return doOnDate;
     }

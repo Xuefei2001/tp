@@ -37,7 +37,7 @@ public class EditCommand extends Command {
             + FLAG_HEADER + TaskFlag.EDIT_DESCRIPTION + " <description> modifies Task description." + NEWLINE
             + FLAG_HEADER + TaskFlag.PRIORITY + " <" + TaskUsageParser.getPrioritiesListString()
                 + "> modifies Task priority." + NEWLINE
-            + FLAG_HEADER + TaskFlag.RECURRENCE + " <" + TaskUsageParser.getPrioritiesListString()
+            + FLAG_HEADER + TaskFlag.RECURRENCE + " <" + TaskUsageParser.getRecurrencesListString()
                 + "> modifies Task recurrence." + NEWLINE
             + FLAG_HEADER + TodoFlag.DO_ON_DATE + " <" + DateParser.getDefaultDateFormat()
                 + "> modifies when Todo is to be done." + NEWLINE

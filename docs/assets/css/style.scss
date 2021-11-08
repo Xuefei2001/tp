@@ -29,3 +29,9 @@ code {
 #buttonToScrollToTop:active {
   filter: brightness(85%);
 }
+
+@media print {
+  #buttonToScrollToTop {
+    display: none;
+  }
+}

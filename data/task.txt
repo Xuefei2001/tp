@@ -1,7 +1,0 @@
-todo go jogging --priority low --recur daily --doOn 30/10/2021 02:00
-reminder 1 --time 10 --message Reminder! 10 min before the following task:
-todo go jogging --priority medium
-deadline return book --priority medium --recur weekly --due 30/10/2021 02:00
-reminder 3 --time 10 --message Reminder! 10 min before the following task:
-event project meeting --priority medium --recur monthly --start 30/10/2021 02:00 --end 30/10/2021 05:00
-reminder 4 --time 10 --message Reminder! 10 min before the following task:

@@ -1,6 +1,6 @@
 # Hu Jialun - Project Portfolio Page
 
-## Product Overview - SchedUrMods
+## Product Overview - SchedUrMods <a id="scrollToHere"></a>
 
 **SchedUrMods** is a highly organic blend of conventional calendar applications and the official NUS timetable service, NUSMods. It enables immense possibilities for command-line interface (CLI) users at NUS to manage the entire time planning at the convenience of their fingertips.
 
@@ -55,6 +55,12 @@ Pulled down entire nusmods data for AY20/21 to conform to the minimal network re
 curl "https://api.nusmods.com/v2/2021-2022/moduleList.json" |
 jq -r '"https://api.nusmods.com/v2/2021-2022/modules/" + .[].moduleCode + ".json"' |
 wget -i - -nc  2>&1 >> log
+```
+
+Tested dead links for the team GitHub page.
+```shell
+LANG=C wget --spider -r -nv 'https://ay2122s1-cs2113t-w13-3.github.io/tp/' 2>&1 |
+grep broken -A 2
 ```
 
 ## Unmerged enhancements

@@ -28,8 +28,8 @@ public class UpcomingCommand extends Command {
     private class SortByTaskHappenTime implements Comparator<Task> {
         @Override
         public int compare(Task o1, Task o2) {
-            assert o1.getHappenTime() != null && o2.getHappenTime() != null;
-            return o1.getHappenTime().compareTo(o2.getHappenTime());
+            assert o1.getListDate() != null && o2.getListDate() != null;
+            return o1.getListDate().compareTo(o2.getListDate());
         }
     }
 
@@ -38,7 +38,7 @@ public class UpcomingCommand extends Command {
         Period distance = Period.ofWeeks(1);
         LocalDateTime end = LocalDateTime.now().plus(distance);
         String message = taskManager.getAllTasksView().stream().filter(task -> {
-            LocalDateTime startTime = task.getHappenTime();
+            LocalDateTime startTime = task.getListDate();
             LocalDateTime next;
             if (startTime == null) {
                 return true;
