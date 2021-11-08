@@ -24,6 +24,9 @@
   - [4.2 Filtering the tasklist](#42-filtering-the-tasklist)
     - [4.2.1 Time proximity based filtering](#421-time-proximity-based-filtering)
   - [4.3 [Proposed] Refactor TaskManager](#43-proposed-refactor-taskmanager)
+  - [4.4 [Proposed] Reminder component](#44-proposed-reminder-component)
+    - [4.4.1 `Reminder` Class](#441-reminder-class)
+    - [4.4.2 `ReminderManager` Class](#442-remindermanager-class)
 - [5. Appendix: Requirements](#5-appendix-requirements)
   - [5.1 Product scope](#51-product-scope)
   - [5.2 User stories](#52-user-stories)
@@ -377,6 +380,35 @@ Finally, the stream is sorted by the occurrence time and collected into a string
 
 ### 4.3 [Proposed] Refactor `TaskManager`
 The team has thought of refactoring `TaskManager` because as of currently, it does not seem to be following the 'Single Responsibility Principle'. Because `TaskManager` both manages the `taskList` and `latestFilteredList`, it seems that it is having 2 responsibilities. The team believes that this issue can be fixed using either the 'Facade', 'Decorator' or 'Proxy' design pattern. However, due to lack of time, we have bundled the two Task lists into one class.
+
+### 4.4 [Proposed] Reminder component
+SchedUrMods have pop-up reminders for all tasks with a time constraint, and all information about the pop-up reminder is stored in `Reminder` objects and controlled by `ReminderManager` class.
+
+#### 4.4.1 `Reminder` Class
+
+<p align="center">
+    <img src="images/XuefeiUMLDiagrams/ReminderUML.JPG" width="500">
+</p>
+
+The `Reminder` objects are implemented in all `Task` objects, however, `reminder` is only initialized in the `Task` objects with time constraint such as todo with a doOn time.
+
+- `taskTime` stores the time of a task should be done or start in the case of event and lesson.
+- `ReminderTime` stores the time that the reminder for the corresponding task should be triggered.
+- `userMinute` `userDay` `message` record the minutes and days a reminder should be shown prior to task time and the message to be shown for each reminder.
+  - `userMinute` is 10 by default and `userDay` is 0 by default.    
+  - These three fields can be customized by users and the customization would be handled by `ReminderManager`.
+- `BUFFER_SECOND` is set to 30, so as long as system time falls in a one-minute duration 30 seconds before and after the exact reminder time, the reminder would pop-up. The buffer time is used to avoid missing the time to send the reminder when running any other command 
+- `reminderDone` indicates if a reminder message has been sent or not to avoid sending multiple reminders within the buffer period, it is set to false by default.
+
+#### 4.4.2 `ReminderManager` Class
+<p align="center">
+    <img src="images/XuefeiUMLDiagrams/ReminderManagerUML.JPG" width="600">
+</p>
+
+The `ReminderManage` object handles customization of reminder time and message and checking the whole task list to display reminder message.
+- The `customizeReminder(TaskManager, Map<String, String>)`  method is called when reminder command executes, the method checks for fields input by the user and call respective method to change minute, day or message for the reminder of corresponding task with the index input by the user.
+- The method `printReminder(TaskManager)` is called at the start of every iteration by the main class when the program is running. It calls `sendReminder(TaskManager)` to check if there is any reminder to be sent at the time instance, and output the reminder if there is a need.
+- `sendReminder` class check through all the tasks in the task list to see if there is a need for sending a reminder at the time when it is called.
 
 ## 5. Appendix: Requirements
 

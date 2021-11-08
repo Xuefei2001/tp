@@ -45,16 +45,15 @@ Given below are the contributions I have made to this project.
         - **Highlights:** The logger handles getting the class by using the `Thread.currentThread().getStackTrace()` function and manages a `Map<String, Logger>` of
            class names to loggers. That way, the whole process of setting up a fileHandler, consoleHandler and log class is done automatically and
            the user doesn't have to worry about it. Therefore, any issues that can arise from it. e.g. specifying the wrong class when creating a logger are no longer an issue.
-    - **Feature 7:** Created `PriorityEnum` and `RecurrenceEnum` for storing of priorities and recurrences.
-        - **Justification:** Forces the program to be unable to store an invalid recurrence or priority.  
+
 ---
 
 - **Contributions to the UG**:
     - **Contribution 1:** Added the documentation in "2.1 Viewing help: `help`".
     - **Contribution 2:** Added the documentation in "2.2 Adding your tasks:" + all it's sub-sections.
-    - **Contribution 3:** Added the documentation in "2.7 Editing your tasks: `edit`".
-    - **Contribution 4:** Added the documentation in "2.8 Deleting your tasks: `delete`".
-    - **Contribution 5:** Added the documentation in "2.10 Storage".
+    - **Contribution 3:** Added the documentation in "2.5 Editing your tasks: `edit`".
+    - **Contribution 4:** Added the documentation in "2.7 Deleting your tasks: `delete`".
+    - **Contribution 5:** Added the documentation in "2.9 Storage".
 
 ---
 

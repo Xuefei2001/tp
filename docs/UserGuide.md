@@ -34,11 +34,11 @@ Below is the guide on how you can get started using our program to start **"Sche
 ## 1. Quick Start
 1. Ensure you have [Java **11** jdk](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) installed in your Computer, 
 and that `java` is in your `PATH` environment variable.
-2. Download the latest zip file from [here](https://github.com/AY2122S1-CS2113T-W13-3/tp/releases/latest).
-3. Decompress the zip file to the folder you want to use as the _home folder_ for SchedUrMods.
-   > **⚠️Warning**: Only decompress the zip file. Do *not* decompress any jar file even if it shows as an archive on your file manager.
+2. Download the latest jar file from [here](https://github.com/AY2122S1-CS2113T-W13-3/tp/releases/latest).
+   > **⚠️Warning**: Do *not* decompress any jar file even if it shows as an archive on your file manager.
+3. Move the jar file to the folder you want to use as the _home folder_ for SchedUrMods.
    >💡 **Note**: Ensure you have permission to create files and folders in this _home folder_.
-4. Open a terminal window in the _home folder_ you designated in step 3.
+4. Open a terminal window in the _home folder_ you created in step 3.
 5. Type `java -jar SchedUrMods.jar` into the terminal to start SchedUrMods.
 6. The following display should appear in a few seconds:
 
@@ -196,7 +196,7 @@ List all tasks currently stored locally in your task list.
 **Format**: `list`
 - The command displays the following information for each task:
   - **Task index**:
-    - A positive integer i.e. `1.` which identifies the task. This index is used to identify tasks in the [`edit`](#26-editing-your-tasks-edit), [`browse`](#272-browse-browse) and [`delete`](#28-deleting-your-tasks-delete) commands.
+    - A positive integer i.e. `1.` which identifies the task. This index is used to identify tasks in the [`edit`](#25-editing-your-tasks-edit), [`browse`](#262-browse-browse) and [`delete`](#27-deleting-your-tasks-delete) commands.
   - **Task type**:
     - A task can either be a Todo, Deadline, Event or Lesson and they are all represented with the first letter of their task type.
     - `[T]` represents a `Todo`.
@@ -348,6 +348,7 @@ Sorts your task list by a given criteria.
 -------------------------------------------------------------------------
 ```
 
+
 ### 2.5 Setting reminders for your tasks: `reminder`
 
 By default, a pop-up reminder is displayed 10 minutes before each task.
@@ -393,6 +394,7 @@ finish it in half an hour!
 - In this example, the reminder message pops up at **01-11-2021 11:30**, 10 days **and** 30 minutes prior to the actual due date.
 
 ### 2.6 Editing your tasks: `edit`
+
 Edits a single [Todo](#221-todo-todo), [Deadline](#222-deadline-deadline) or [Event](#223-event-event) based on the flags entered.
 **Format**: `edit <index> <--flag <value>> [--flag <value>] [--flag <value>]...`
 - `<index>` is the index of the task you want to edit from the most recent [list](#23-listing-your-tasks-list) command that you have run.
@@ -440,7 +442,7 @@ Adds your modules and classes into your task list.
 
 #### 2.7.2 Browse: `browse`
 
-Browse to links that were added to your `Lesson` with the [`edit`](#26-editing-your-tasks-edit) command.
+Browse to links that were added to your `Lesson` with the [`edit`](#25-editing-your-tasks-edit) command.
 **Format**: `browse <index>`
 - `<index>` is the index of the task you want to browse to (open in an internet browser) in the most recent [list](#23-listing-your-tasks-list) command that you have run.
   >💡 **Note**: if the task you want to browse to was not in your most recent [list](#23-listing-your-tasks-list) command, simply type `list` to list all your tasks and use its corresponding index to browse to the task's url.
@@ -575,11 +577,11 @@ help     | `help`                                           | `help`            
 todo     | `todo <description> [--flag <argument>]`         | `todo read book`                                                                                     |
 deadline | `deadline <description> [--flag <argument>]`     |`deadline CS2106 Lab 3 --priority high --due 20-10-2021 02:00`                                        |
 event    | `event <description> [--flag <argument>]`        | `event Marquee Christmas Party --priority high --start 25-12-2020 22:00:00 --end 26-12-2020 04:00`   |
+list     | `list [--filter <argument>]` or `list [task id]` | `list` or `list --type todo --priority medium` or `list 3`                                           |
+reminder | `reminder <index of task> [--flag <argument>]`   | `reminder 1 --day 10 --minute 30 --message finish it in half an hour!`                               |                                                                                       |
+sort     | `sort --by <criteria>`                           | `sort --by priority`                                                                                 |
+edit     | `edit <index of task to delete>`                 | `edit 3`                                                                                             |
 module   | `module {<module code>:{<class number>,}...;}...`| `module CS2113T:C02;LAJ2203:1,A2,B4`                                                                 | 
 browse   | `browse <index>`                                 | `browse 2`                                                                                           |
-list     | `list [--filter <argument>]` or `list [task id]` | `list` or `list --type todo --priority medium` or `list 3`                                           |
-reminder | `reminder <index of task> [--flag <argument>]`   | `reminder 1 --day 10 --minute 30 --message finish it in half an hour!`                                               |                                                                                                      |
-sort     | `sort --by <criteria>`                           | `sort --by priority`                                                                                 |
 delete   | `delete <index(es) of task(s) to delete>`        | `delete 1, 2, 4-7`                                                                                   |
-edit     | `edit <index of task to delete>`                 | `edit 3`                                                                                             |
 bye      | `bye`                                            | `bye`                                                                                                |
