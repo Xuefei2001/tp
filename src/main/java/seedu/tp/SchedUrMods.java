@@ -5,7 +5,6 @@ import seedu.tp.command.CommandResult;
 import seedu.tp.storage.DataManager;
 import seedu.tp.parser.CommandParser;
 import seedu.tp.storage.FileCreator;
-import seedu.tp.task.reminder.ReminderManager;
 import seedu.tp.task.taskmanager.TaskManager;
 import seedu.tp.ui.Ui;
 
@@ -13,7 +12,6 @@ public class SchedUrMods {
 
     private Ui ui;
     private TaskManager taskManager;
-    private ReminderManager reminderManager;
 
     public SchedUrMods() {
         ui = new Ui();
@@ -45,7 +43,6 @@ public class SchedUrMods {
         CommandResult commandResult;
 
         do {
-            reminderManager.printReminder(taskManager);
 
             String userInput = ui.readInput();
 

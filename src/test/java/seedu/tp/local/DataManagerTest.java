@@ -31,17 +31,13 @@ public class DataManagerTest {
         deadline = new Deadline("return book", startDate, RecurrenceEnum.WEEKLY);
         event = new Event("project meeting", startDate, endDate, RecurrenceEnum.MONTHLY);
 
-        expectedOut.add("todo go jogging --priority low --recur daily --doOn 30/10/2021 02:00"
-                + System.lineSeparator()
-                + "reminder 1 --time 10 --message Reminder! 10 min before the following task:");
-        expectedOut.add("todo go jogging --priority medium");
-        expectedOut.add("deadline return book --priority medium --recur weekly --due 2021-10-30T02:00"
-                + System.lineSeparator()
-                + "reminder 3 --time 10 --message Reminder! 10 min before the following task:");
-        expectedOut.add("event project meeting --priority medium --recur monthly "
-                + "--start 2021-10-30T02:00 --end 2021-10-30T05:00"
-                + System.lineSeparator()
-                + "reminder 4 --time 10 --message Reminder! 10 min before the following task:");
+        expectedOut.add("todo|go jogging|2021-10-30T02:00|low|daily|"
+                + "10|Reminder! 10 min before the following task:");
+        expectedOut.add("todo|go jogging|null|medium|none|null|null");
+        expectedOut.add("deadline|return book|2021-10-30T02:00|medium|weekly|"
+                + "10|Reminder! 10 min before the following task:");
+        expectedOut.add("event|project meeting|2021-10-30T02:00|2021-10-30T05:00|medium|monthly|"
+                + "10|Reminder! 10 min before the following task:");
 
         ArrayList<String> results = DataManager.getStringLineList();
 

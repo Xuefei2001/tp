@@ -20,14 +20,13 @@ Below is the guide on how you can get started using our program to start **"Sche
       - [2.3.3 Listing the recurrence of a task](#233-listing-the-recurrence-of-a-task)
       - [2.3.4 Listing your upcoming tasks: `upcoming`](#234-listing-your-upcoming-tasks-upcoming)
     - [2.4 Sorting your task list: `sort`](#24-sorting-your-task-list-sort)
-    - [2.5 Setting reminders to your tasks: `reminder`](#25-setting-reminders-for-your-tasks-reminder)
-    - [2.6 Editing your tasks: `edit`](#26-editing-your-tasks-edit)
-    - [2.7 Adding your NUS timetable:](#27-adding-your-nus-timetable)
-      - [2.7.1 Module: `module`](#271-module-module)
-      - [2.7.2 Browse: `browse`](#272-browse-browse)
-    - [2.8 Deleting your tasks: `delete`](#28-deleting-your-tasks-delete)
-    - [2.9 Exiting the program: `bye`](#29-exiting-the-program-bye)
-    - [2.10 Storage](#210-storage)
+    - [2.5 Editing your tasks: `edit`](#25-editing-your-tasks-edit)
+    - [2.6 Adding your NUS timetable:](#26-adding-your-nus-timetable)
+      - [2.6.1 Module: `module`](#261-module-module)
+      - [2.6.2 Browse: `browse`](#262-browse-browse)
+    - [2.7 Deleting your tasks: `delete`](#27-deleting-your-tasks-delete)
+    - [2.8 Exiting the program: `bye`](#28-exiting-the-program-bye)
+    - [2.9 Storage](#29-storage)
 - [3. FAQ](#3-faq)
 - [4. Command Summary](#4-command-summary)
 
@@ -348,53 +347,7 @@ Sorts your task list by a given criteria.
 -------------------------------------------------------------------------
 ```
 
-
-### 2.5 Setting reminders for your tasks: `reminder`
-
-By default, a pop-up reminder is displayed 10 minutes before each task.
-
-**Example:**
-```
--------------------------------------------------------------------------
-Reminder! 10 min before the following task:
-	submit assignment 5 [medium] (dueDate: 02-11-2021 12:00)
--------------------------------------------------------------------------
-```
-
-You can also choose to **change the reminder message and time**. Each task can have different reminder time and message.
-
-**Format:** `reminder <index of task> [--flag <argument>]`
-- `<index of task>` specifies number of the task you want to change in your current task list.
-- `[--flag <argument>]` specifies additional details you need to provide.
-  - The number of days you want the reminder to pop up before it starts/needs to be done: `[--day <day>]`
-  - The number of minutes you want the reminder to pop up before it starts/needs to be done: `[--minute <minute>]`
-  - The reminder message you want to use: `[--message <your reminder message>]`
-
->💡 **Note**: 
->- If both day and minute are set to a non-zero value, then the time for reminder is the total of days and minutes.
->- The task description cannot be changed. i.e. only the "Reminder! 10 min before the following task:" part can be modified.
-
-**Example:** `reminder 1 --day 10 --minute 30 --message finish it in half an hour!`
-    
-**Expected outcome when a reminder is customized:**
-```
-[user]: reminder 1 --day 10 --minute 30 --message finish it in half an hour!
-|| The minutes for reminder is updated to 30
-|| The days for reminder is updated to 10
-|| The reminder message is updated to finish it in half an hour!
-```
-
-**Reminder displayed:**
-```
--------------------------------------------------------------------------
-finish it in half an hour!
-	submit assignment 5 [medium] (dueDate: 11-11-2021 12:00)
--------------------------------------------------------------------------
-```
-- In this example, the reminder message pops up at **01-11-2021 11:30**, 10 days **and** 30 minutes prior to the actual due date.
-
-### 2.6 Editing your tasks: `edit`
-
+### 2.5 Editing your tasks: `edit`
 Edits a single [Todo](#221-todo-todo), [Deadline](#222-deadline-deadline) or [Event](#223-event-event) based on the flags entered.
 **Format**: `edit <index> <--flag <value>> [--flag <value>] [--flag <value>]...`
 - `<index>` is the index of the task you want to edit from the most recent [list](#23-listing-your-tasks-list) command that you have run.
@@ -411,11 +364,11 @@ Edits a single [Todo](#221-todo-todo), [Deadline](#222-deadline-deadline) or [Ev
   - `--link <url>` modifies your Lesson link.
 
 
-### 2.7 Adding your NUS timetable:
+### 2.6 Adding your NUS timetable:
 
 Allows you to add modules into your task list and browse to their meeting links with your Operating System's default internet browser.
 
-#### 2.7.1 Module: `module`
+#### 2.6.1 Module: `module`
 
 Adds your modules and classes into your task list.
 
@@ -440,7 +393,7 @@ Adds your modules and classes into your task list.
 -------------------------------------------------------------------------
 ```
 
-#### 2.7.2 Browse: `browse`
+#### 2.6.2 Browse: `browse`
 
 Browse to links that were added to your `Lesson` with the [`edit`](#25-editing-your-tasks-edit) command.
 **Format**: `browse <index>`
@@ -474,7 +427,7 @@ Browse to links that were added to your `Lesson` with the [`edit`](#25-editing-y
 > ```
 > You can conveniently list the tasks and see if the lesson has a link.
 
-### 2.8 Deleting your tasks: `delete`
+### 2.7 Deleting your tasks: `delete`
 Deletes all task(s) specified in a comma-separated argument.
 **Format**: `delete <indexes>`
 - `<indexes>` are the indexes of the task you want to edit from the most recent [list](#23-listing-your-tasks-list) command that you have run.
@@ -533,7 +486,7 @@ Deletes all task(s) specified in a comma-separated argument.
 -------------------------------------------------------------------------
 ```
 
-### 2.9 Exiting the program: `bye`
+### 2.8 Exiting the program: `bye`
 Displays goodbye message and exits the program.
 
 **Format**: `bye`
@@ -547,7 +500,7 @@ Displays goodbye message and exits the program.
 -------------------------------------------------------------------------
 ```
 
-### 2.10 Storage
+### 2.9 Storage
 The program will store and automatically update your tasks in the file `[project directory]/data/task.dat` on any change to your task list.  
    > **⚠️Warning**: The SchedUrMods team **strongly discourages** users from directly modifying Task data in `task.dat` as it can lead to undefined behaviour. The team **will not be responsible** for any *loss of data* or *undefined behaviour* as a result of users directly modifying values in the save file.
 
@@ -578,7 +531,7 @@ todo     | `todo <description> [--flag <argument>]`         | `todo read book`  
 deadline | `deadline <description> [--flag <argument>]`     |`deadline CS2106 Lab 3 --priority high --due 20-10-2021 02:00`                                        |
 event    | `event <description> [--flag <argument>]`        | `event Marquee Christmas Party --priority high --start 25-12-2020 22:00:00 --end 26-12-2020 04:00`   |
 list     | `list [--filter <argument>]` or `list [task id]` | `list` or `list --type todo --priority medium` or `list 3`                                           |
-reminder | `reminder <index of task> [--flag <argument>]`   | `reminder 1 --day 10 --minute 30 --message finish it in half an hour!`                               |                                                                                       |
+upcoming | `upcoming`                                       | `upcoming`                                                                                           |
 sort     | `sort --by <criteria>`                           | `sort --by priority`                                                                                 |
 edit     | `edit <index of task to delete>`                 | `edit 3`                                                                                             |
 module   | `module {<module code>:{<class number>,}...;}...`| `module CS2113T:C02;LAJ2203:1,A2,B4`                                                                 | 

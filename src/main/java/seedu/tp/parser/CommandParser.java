@@ -13,7 +13,6 @@ import seedu.tp.command.ListCommand;
 import seedu.tp.command.ReminderCommand;
 import seedu.tp.command.SortCommand;
 import seedu.tp.command.UpcomingCommand;
-
 import seedu.tp.command.addtask.DeadlineCommand;
 import seedu.tp.command.addtask.EventCommand;
 import seedu.tp.command.addtask.ModuleCommand;
@@ -109,8 +108,6 @@ public class CommandParser {
             return new BrowseCommand(taskManager, commandOptions);
         case UPCOMING:
             return new UpcomingCommand(taskManager, commandOptions);
-        case REMINDER:
-            return new ReminderCommand(taskManager, commandOptions);
         default:
             return new InvalidCommand();
         }

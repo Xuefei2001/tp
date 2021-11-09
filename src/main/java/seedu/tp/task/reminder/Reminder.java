@@ -4,19 +4,15 @@ import seedu.tp.task.RecurrenceEnum;
 
 import java.time.LocalDateTime;
 
-//@@author Xuefei2001
-/**
- * Hold reminder information and handle individual reminder.
- */
 public class Reminder {
     private static final long BUFFER_SECOND = 30;
     private static final long RECURRENCE_INCREMENT = 1;
     private LocalDateTime taskTime;
     private LocalDateTime reminderTime;
     private boolean reminderDone;
-    private long userMinute = 10;
-    private long userDay = 0;
+    private long userTime = 10;
     private String message = "Reminder! 10 min before the following task:";
+    private ReminderInformation information;
 
     public Reminder() {
         this.reminderDone = false;
@@ -24,23 +20,18 @@ public class Reminder {
 
     public Reminder(LocalDateTime time) {
         this.taskTime = time;
-        this.reminderTime = taskTime.minusMinutes(userMinute);
+        this.reminderTime = taskTime.minusMinutes(userTime);
         setReminderDone();
+        setInformation();
     }
 
-    public void setUserMinute(long minute) {
-        this.userMinute = minute;
-        updateReminderTime();
-    }
-
-    public void setUserDay(long day) {
-        this.userDay = day;
+    public void setUserTime(long userTime) {
+        this.userTime = userTime;
         updateReminderTime();
     }
 
     public void updateReminderTime() {
-        this.reminderTime = taskTime.minusMinutes(userMinute);
-        this.reminderTime = taskTime.minusDays(userDay);
+        this.reminderTime = taskTime.minusMinutes(userTime);
     }
 
     public void setMessage(String message) {
@@ -52,10 +43,6 @@ public class Reminder {
         this.reminderDone = false;
     }
 
-    //@@author Xuefei2001
-    /**
-     * If current time has already miss the reminder time, set reminderDone as true, with 30s buffer time.
-     */
     public void setReminderDone() {
         LocalDateTime now = LocalDateTime.now();
         if (now.isAfter(this.reminderTime.plusSeconds(BUFFER_SECOND))) {
@@ -65,14 +52,6 @@ public class Reminder {
         }
     }
 
-    //@@author Xuefei2001
-    /**
-     * Check if the system time fall within buffer period and output reminder message.
-     *
-     * @param now current system time.
-     * @param task the task converted to a String including all necessary information.
-     * @return reminder message with task description if it needs reminder, empty String if it does not need reminder.
-     */
     public String getMessage(LocalDateTime now, String task) {
         if (!reminderDone) {
             if (reminderTime.isAfter(now.minusSeconds(BUFFER_SECOND))
@@ -84,15 +63,14 @@ public class Reminder {
         return "";
     }
 
-    //@@author Xuefei2001
-    /**
-     * Output reminder message and reset reminder time according recurrence.
-     *
-     * @param now current system time.
-     * @param task the task converted to a String including all necessary information.
-     * @param recurrence recurrence enum to indicate frequency of recurrence
-     * @return reminder message with task description if need reminder, empty String if do not need reminder.
-     */
+    public void setInformation() {
+        information = new ReminderInformation(reminderDone, userTime, message);
+    }
+
+    public ReminderInformation getInformation() {
+        return information;
+    }
+
     public String getRecurrenceMessage(LocalDateTime now, String task, RecurrenceEnum recurrence) {
         String reminderMessage = "";
         switch (recurrence) {
